@@ -1,0 +1,30 @@
+<div class="card">
+  <div>
+    <div class="card-header">
+      List des Commandes
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table table">
+      <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Reference</th>
+        <th scope="col">Total</th>
+        <th scope="col">TotalPayer</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of commandes; index as i">
+        <td>{{c.id}}</td>
+        <td>{{c.reference}}</td>
+        <td>{{c.total}}</td>
+        <td>{{c.totalPayer}}</td>
+        <td><span (click)="delete(i)"><i class="fa fa-trash btn btn-danger"></i></span></td>
+        <td><span (click)="update(c,i)" routerLink="commande-create"><i class="fa fa-edit btn btn-warning"></i></span></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
