@@ -1,3 +1,5 @@
+import {Paiment} from "./paiment.model";
+
 export class Commande {
   // @ts-ignore
   public id:number;
@@ -7,5 +9,6 @@ export class Commande {
   public total: number;
   // @ts-ignore
   public totalPayer:number;
-
+// @ts-ignore
+  public paiments = new Array<Paiment>();
 }

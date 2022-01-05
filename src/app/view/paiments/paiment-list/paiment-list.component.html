@@ -1,0 +1,30 @@
+<div class="card">
+  <div>
+    <div class="card-header">
+      List des Paiments
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table table">
+      <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Code</th>
+        <th scope="col">Montant</th>
+        <th scope="col">Date Paiment</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of paiments; index as i">
+        <td>{{p.id}}</td>
+        <td>{{p.code}}</td>
+        <td>{{p.montant}}</td>
+        <td>{{p.datePaiment}}</td>
+        <td><span (click)="delete(i,p)"><i class="fa fa-trash btn btn-danger"></i></span></td>
+        <td><span (click)="update(p,i)" routerLink="paiment-create"><i class="fa fa-edit btn btn-warning"></i></span></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

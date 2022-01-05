@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Commande} from "../model/commande.model";
 import {HttpClient} from "@angular/common/http";
+import {Paiment} from "../model/paiment.model";
+import {PaimentService} from "./paiment.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class CommandeService {
   private _index: number ;
   private _urlBase ='http://localhost:8036/';
   private _urlSeccond ='gestion_commande/commande/';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private paimentService: PaimentService) { }
 
   public init(){
   this.http.get<Array<Commande>>(this._urlBase + this._urlSeccond).subscribe(
@@ -27,13 +29,19 @@ export class CommandeService {
   )
   }
   public update(commande:Commande, index: number){
-    this.commande = this.clone(commande);
-    this._index = index;
+        this.commande = this.clone(commande);
+        this._index = index;
+  }
+  get paiments(): Array<Paiment> {
+    return this.paimentService.paiments;
   }
   public save(){
+    console.log(this.commande);
+    console.log('haha'+this.paiments);
     if(this.commande.id == null){
-      this.http.post(this._urlBase + this._urlSeccond,this.commande).subscribe(
+      this.http.post<Array<Commande>>(this._urlBase + this._urlSeccond,this.commande).subscribe(
         data=>{
+          // @ts-ignore
           if(data > 0){
             this.init();
           }
@@ -45,11 +53,28 @@ export class CommandeService {
 
     }
     else{
-      // @ts-ignore
-      this.commandes[this._index]=this.clone(this.commande);
+    console.log('hadi put');
+    console.log(this.commande);
+      this.http.put(this._urlBase+this._urlSeccond,this.commande).subscribe(
+        data=>{
+          this.commandes[this._index] = this.commande;
+        }
+      )
     }
     // @ts-ignore
   this.commande = null;
+  }
+  public delete(index: number, commande: Commande){
+    this.http.delete<number>(this._urlBase +this._urlSeccond + 'reference/' + commande.reference).subscribe(
+      data=>{
+        if(data > 0){
+          this.commandes.splice(index,1);
+        }
+        else{
+          alert('error lors de la suppression commande '+data);
+        }
+      }
+      )
   }
   public clone(commande: Commande){
     let myClone = new Commande();
@@ -57,6 +82,7 @@ export class CommandeService {
     myClone.reference = commande.reference;
     myClone.total = commande.total;
     myClone.totalPayer = commande.totalPayer;
+    myClone.paiments = commande.paiments;
     return myClone;
   }
   get commande(): Commande {

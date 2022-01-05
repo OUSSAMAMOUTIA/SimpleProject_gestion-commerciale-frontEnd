@@ -1,0 +1,41 @@
+<div class="card">
+  <div class="card-header">
+    Ajout des Paiments
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <label >Code</label>
+      <input type="text" class="form-control" [(ngModel)]="paiment.code">
+    </div>
+    <div class="form-group">
+      <label for="inputState">Commande</label>
+      <select id="inputState" class="form-control" [(ngModel)]="paiment.commande.reference"  [ngModelOptions]="{standalone: true}">
+        <option selected >Choose...</option>
+        <option *ngFor="let c of met()" [value]="c.reference" >{{c.reference}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label >Total de la commande choisis</label>
+      <div class="card"    disabled >{{oussama()}}</div>
+    </div>
+    <div class="form-group">
+      <label >Montant</label>
+      <input type="number" class="form-control" [(ngModel)]="paiment.montant" >
+    </div>
+    <div class="alert alert-danger" role="alert" style="margin-top: 1rem " [hidden]="oussama3()">
+     Please fill the blanks montant with appropraite value!!!!
+    </div>
+    <div class="form-group">
+      <label >Reste</label>
+      <div class="card"    disabled >{{oussama2()}}</div>
+    </div>
+    <div class="form-group">
+      <label >Date Paiment</label>
+      <input type="date" class="form-control" [(ngModel)]="paiment.datePaiment">
+    </div>
+
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary w-50 "  (click)="save()">Valider</button>
+  </div>
+</div>
