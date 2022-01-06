@@ -56,10 +56,8 @@ export class PaimentService {
   }
   public save(){
     if(this.paiment.id == null){
-      console.log("Error: " + JSON.stringify(this.paiment));
       this.http.post<Array<Paiment>>(this._urlBase + this._urlSeccond ,this.paiment).subscribe(
         data=>{
-          console.log('nari '+data);
           // @ts-ignore
           if(data > 0){
             console.log('here is data '+ data);

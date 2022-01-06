@@ -15,8 +15,20 @@ export class PaimentCreateComponent implements OnInit {
   get paiment(): Paiment {
     return this.paimentService.paiment;
   }
-
+  public disabled():boolean{
+    let disabled=true;
+    if(this.paiment.commande.reference!=null && this.paiment.montant!= null && this.paiment.datePaiment!= null ){
+      disabled =false;
+    }
+    return disabled;
+  }
   public save(){
+    let x= 0;
+    for(let p of this.paiments){
+      if(p.commande.reference == this.paiment.commande.reference){
+        x++;
+      }}
+    this.paiment.code = this.paiment.commande.reference +'-pai-'+x;
     return this.paimentService.save();
   }
   // @ts-ignore
@@ -53,6 +65,9 @@ export class PaimentCreateComponent implements OnInit {
   get commandes(): Array<Commande> {
     return this.commandeService.commandes;
   }
+  get paiments(): Array<Paiment> {
+    return this.paimentService.paiments;
+  }
   public met(): Array<Commande>{
     let x = this.commandes;
     let y = new Array<Commande>();
@@ -65,6 +80,7 @@ export class PaimentCreateComponent implements OnInit {
   }
   ngOnInit(): void {
     this.commandeService.init();
+    this.paimentService.init();
   }
 
 }

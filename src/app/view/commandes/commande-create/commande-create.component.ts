@@ -12,21 +12,25 @@ import {PaimentService} from "../../../controller/service/paiment.service";
 export class CommandeCreateComponent implements OnInit {
   // @ts-ignore
   private _index: number;
-
+  public disable=true;
   constructor(private commandeService: CommandeService, private paimentService: PaimentService) { }
   get commande(): Commande {
     return this.commandeService.commande;
+  }
+  get commandes(): Array<Commande> {
+    return this.commandeService.commandes;
   }
   public delete(index:number){
     this.paiments.splice(index,1);
   }
   public save(){
+    this.commande.reference = 'cmd-'+(this.commandes.length+1);
     console.log(this.commande.paiments);
     return this.commandeService.save();
   }
   public disabled():boolean{
     let disabled=true;
-    if(this.commande.reference!= null && this.commande.total!= null &&this.commande.totalPayer!= null ){
+    if( this.commande.total!= null &&this.commande.totalPayer!= null ){
        disabled =false;
     }
     return disabled;
@@ -40,16 +44,20 @@ export class CommandeCreateComponent implements OnInit {
   set paiment(value: Paiment) {
     this.paimentService.paiment = value;
   }
+  set paiments(value: Array<Paiment>) {
+    this.paimentService.paiments = value;
+  }
   // @ts-ignore
   public addPaiment(){
+    this.disable =false;
     if(this.paiment.id == null){
       this.paiment.id = this.paiments.length+1;
-      console.log(this.paiment.id);
-      this.commande.paiments.push(this.paiment);
+      this.commande.reference = 'cmd-'+(this.commandes.length+1);
+      this.paiment.code = this.commande.reference +'-pai-'+this.paiment.id;
+      this.commande.paiments.push(this.paimentService.clone(this.paiment));
       this.paiments.push(this.paimentService.clone(this.paiment));
     }
     else{
-      console.log('hna else'+this.paiment.code);
       this.commande.paiments.push(this.paiment);
       this.paiments[this._index] = this.paimentService.clone(this.paiment);
     }
@@ -57,6 +65,7 @@ export class CommandeCreateComponent implements OnInit {
     this.paiment = null;
   }
   ngOnInit(): void {
+    this.commandeService.init();
   }
 
 

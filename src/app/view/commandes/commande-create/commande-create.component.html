@@ -3,10 +3,7 @@
     Ajout des Commandes
   </div>
   <div class="card-body">
-    <div class="form-group">
-      <label >Reference</label>
-      <input type="text" class="form-control" [(ngModel)]="commande.reference">
-    </div>
+
     <div class="form-group">
       <label >Total</label>
       <input type="number" class="form-control" [(ngModel)]="commande.total">
@@ -21,10 +18,8 @@
   </div>
   <div>
     <div class="row">
-      <div class="form-group col-md-6">
-        <input type="text" class="form-control" placeholder="Code" [(ngModel)]="paiment.code">
-      </div>
-      <div class="form-group col-md-6">
+
+      <div class="form-group">
         <input type="number" class="form-control" placeholder="Montant" [(ngModel)]="paiment.montant">
       </div>
     </div>
@@ -34,7 +29,7 @@
     <div class="but">
       <button type="button" class="btn btn-info w-50" style="margin:20px auto" (click)="addPaiment()">Ajouter</button>
     </div>
-    <table class="table table">
+    <table class="table table-striped">
       <thead>
       <tr>
         <th scope="col">Code</th>
@@ -44,7 +39,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let p of paiments; index as i">
+      <tr *ngFor="let p of paiments; index as i" [hidden]="disable">
         <td>{{p.code}}</td>
         <td>{{p.montant}}</td>
         <td>{{p.datePaiment}}</td>
@@ -58,4 +53,14 @@
   <div class="card-footer">
     <button class="btn btn-primary w-50 " (click)="save()" [disabled]="disabled()">Valider</button>
   </div>
+</div>
+<div class="container" style="margin-top: 10rem ">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="" class="nav-link px-2 text-muted" routerLink="commande-create">Commandes Create</a></li>
+      <li class="nav-item"><a href="" class="nav-link px-2 text-muted" routerLink="paiment-create">Paiment Create</a></li>
+      <li class="nav-item"><a href="" class="nav-link px-2 text-muted" routerLink="paiment-list">Liste des Paiments</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2021 Company, Inc</p>
+  </footer>
 </div>
