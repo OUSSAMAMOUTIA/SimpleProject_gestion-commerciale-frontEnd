@@ -22,9 +22,33 @@
         <td>{{c.total}}</td>
         <td>{{c.totalPayer}}</td>
         <td><span (click)="delete(i,c)"><i class="fa fa-trash btn btn-danger"></i></span></td>
-        <td><span (click)="update(c,i)" ><i class="fa fa-edit btn btn-warning"></i></span></td>
+        <td><span (click)="findCommandeByReference(c.reference)"><i class="fa fa-info btn btn-info"></i></span></td>
+        <td><span (click)="update(c,i)" routerLink="commande-create" ><i class="fa fa-edit btn btn-warning"></i></span></td>
       </tr>
       </tbody>
     </table>
+    <div [hidden]="disabled">Details
+      <table class="table table">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Reference</th>
+          <th scope="col">Total</th>
+          <th scope="col">TotalPayer</th>
+          <th scope="col">Paiment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let p of commande.paiments ">
+          <td>{{commande.id}}</td>
+          <td>{{commande.reference}}</td>
+          <td>{{commande.total}}</td>
+          <td>{{commande.totalPayer}}</td>
+          <td>{{p.code}}</td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

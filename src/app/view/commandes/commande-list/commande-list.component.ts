@@ -10,6 +10,7 @@ import {Paiment} from "../../../controller/model/paiment.model";
   styleUrls: ['./commande-list.component.css']
 })
 export class CommandeListComponent implements OnInit {
+   disabled = true;
 
   constructor(private commandeService: CommandeService,private paimentService: PaimentService) { }
 
@@ -20,8 +21,15 @@ export class CommandeListComponent implements OnInit {
     return this.paimentService.paiments;
   }
   public delete(index: number, commande:Commande){
-    this.commandes.splice(index,1);
     return this.commandeService.delete(index,commande);
+  }
+  public findCommandeByReference(commande: String){
+    this.disabled =false;
+    console.log(this.paiments);
+    return this.commandeService.findCommandeByReference(commande, this.paiments);
+  }
+  get commande(): Commande {
+    return this.commandeService.commande;
   }
   public update(commande:Commande, index: number){
     console.log('hadi update');
@@ -37,6 +45,7 @@ export class CommandeListComponent implements OnInit {
     console.log(commande.paiments);
     return this.commandeService.update(commande, index);
   }
+
   ngOnInit(): void {
     this.commandeService.init();
     this.paimentService.init();

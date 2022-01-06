@@ -12,6 +12,8 @@ export class PaimentService {
   // @ts-ignore
     private _paiments: Array<Paiment>;
   // @ts-ignore
+  private _x: Array<Paiment>;
+  // @ts-ignore
   private _index: number ;
   private _urlBase ='http://localhost:8036/';
   private _urlSeccond ='gestion_commande/paiment/';
@@ -42,7 +44,15 @@ export class PaimentService {
         }
       }
     )
+  }
 
+
+  public findPaimentByCode(paiment:String){
+    this.http.get<Paiment>(this._urlBase + this._urlSeccond + 'code/' + paiment).subscribe(
+      data=>{
+       this.paiment = data;
+      }
+    )
   }
   public save(){
     if(this.paiment.id == null){

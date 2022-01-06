@@ -13,6 +13,10 @@ export class CommandeService {
   // @ts-ignore
   private _commandes: Array<Commande>;
   // @ts-ignore
+  private _paiments: Array<Paiment>;
+  // @ts-ignore
+  private _paiment: Paiment;
+  // @ts-ignore
   private _index: number ;
   private _urlBase ='http://localhost:8036/';
   private _urlSeccond ='gestion_commande/commande/';
@@ -32,12 +36,9 @@ export class CommandeService {
         this.commande = this.clone(commande);
         this._index = index;
   }
-  get paiments(): Array<Paiment> {
-    return this.paimentService.paiments;
-  }
+
   public save(){
     console.log(this.commande);
-    console.log('haha'+this.paiments);
     if(this.commande.id == null){
       this.http.post<Array<Commande>>(this._urlBase + this._urlSeccond,this.commande).subscribe(
         data=>{
@@ -76,6 +77,33 @@ export class CommandeService {
       }
       )
   }
+  public findCommandeByReference(commande:String, paiments: Array<Paiment>){
+    this.http.get<Commande>(this._urlBase + this._urlSeccond + 'reference/' + commande).subscribe(
+      data=>{
+        console.log(data);
+        this.commande = data;
+        this.commande.paiments = new Array<Paiment>()
+        for(let p of paiments){
+          if(p.commande.reference == commande){
+            this.commande.paiments.push(p);
+            console.log(this.commande.paiments);
+          }
+        }
+
+      }
+    )
+  }
+  get paiments(): Array<Paiment> {
+    if(this._paiments == null){
+      this._paiments = new Array<Paiment>();
+    }
+    return this._paiments;
+  }
+
+  set paiments(value: Array<Paiment>) {
+    this._paiments = value;
+  }
+
   public clone(commande: Commande){
     let myClone = new Commande();
     myClone.id = commande.id;
@@ -105,5 +133,20 @@ export class CommandeService {
 
   set commandes(value: Array<Commande>) {
     this._commandes = value;
+  }
+
+  get paiment(): Paiment {
+    if(this._paiment == null){
+      this._paiment = new Paiment();
+    }
+    return this._paiment;
+  }
+
+  set paiment(value: Paiment) {
+    this._paiment = value;
+  }
+
+  updatePaiment(paiment: Paiment, index: number) {
+      this.paiment = this.paimentService.clone(paiment);
   }
 }
